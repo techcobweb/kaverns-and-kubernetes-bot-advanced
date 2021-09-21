@@ -1,0 +1,82 @@
+
+import unittest
+import roguebot
+import pytest
+
+from roguebot.state.dungeon_map import DungeonMap
+from roguebot.brains.ibrain import IBrain
+from roguebot.brains.brain import GoalDrivenBrain
+from roguebot.navigation.point import Point
+from roguebot.navigation.direction import Direction
+from roguebot.state.entity import Entities, Entity
+from assertpy import assert_that
+from roguebot.state.item import Item, Items
+from roguebot.action import *
+from tests.state.dungeon_draw import *
+from roguebot.state.state import State
+from roguebot.action import Action, MoveAction, TakeAction
+
+
+@pytest.fixture
+def me() -> Entity:
+    return Entity(char="@", name="fred",
+                  position=Point(1, 1, 0), identifier="fredID", alive=True, inventory=[])
+
+
+@pytest.fixture
+def small_cell_dungeon() -> DungeonMap:
+    # A small 1-cell room, so no movement is possible.
+    picture = """
+        ----------- level z=0 :
+        ###
+        # #
+        ###
+        -----------
+        """
+    dungeon_map = get_dungeon_from_picture(
+        picture,
+        entrance=Point(99, 99, 0)
+    )
+    return dungeon_map
+
+
+@pytest.fixture
+def fresh_brain() -> IBrain:
+    return GoalDrivenBrain()
+
+
+@pytest.fixture
+def apricot() -> Item:
+    return Item(position=Point(1, 1, 0), name='apricot', edible=True)
+
+
+def test_one_item_gets_picked_up(
+        small_cell_dungeon: DungeonMap,
+        me: Entity,
+        apricot: Item,
+        fresh_brain: IBrain):
+
+    # Given...
+    state = State(dungeon_map=small_cell_dungeon, my_entity_id=me.identifier)
+    state.entities.add(me)
+    state.items.add(apricot)
+    brain = fresh_brain
+
+    # When...
+    actions = brain.decide_actions(state)
+
+    # Then...
+    assert_that(actions,
+                "The brain didn't suggest one action"
+                ).is_length(1)
+
+    assert_that(actions[0].action_code,
+                "The action suggested is not `take`"
+                ).is_equal_to(ActionCode.TAKE)
+
+    assert_that(actions[0].item_name,
+                "The brain tried to take the wrong item"
+                ).is_equal_to('apricot')
+
+    # All going well, the server will update our state, and the apricot would
+    # later appear in the me.inventory list.

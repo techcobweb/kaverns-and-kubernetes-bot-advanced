@@ -1,0 +1,32 @@
+language: python
+python:
+  - 3.8
+before_install:
+  - python --version
+install:
+  - pip install -r build/requirements.txt
+  # Don't need development environment tools.
+  - pip install -r build/requirements-test.txt
+services:
+  - docker
+script:
+  - pylint --fail-under 5.5 roguebot/* # Fail if not pep8 enough
+  - coverage run -m pytest
+  - coverage report
+  - make -C docs/ gen html
+  - touch docs/_build/html/.nojekyll
+
+deploy:
+  # Deploy the docs to github pages branch, if we are on the main branch.
+  - provider: pages:git
+    verbose: true
+    token: $GITHUB_TOKEN
+    target_branch: gh-pages
+    edge: true
+    local_dir: ./docs/_build/html/
+    keep_history: true
+    url: github.ibm.com
+    on:
+      repo: DevCamp/kaverns-and-kubernetes-advanced
+      branch: main # Only deploy if building this branch
+

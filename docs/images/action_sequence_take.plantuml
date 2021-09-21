@@ -1,0 +1,28 @@
+@startuml
+
+
+Server -> EntityClient : ping
+activate EntityClient
+
+    EntityClient -> Bot : tick
+    activate Bot
+
+        Bot -> Brain : decide_actions
+        activate Brain
+            Brain -> TakeAction : create
+            Brain --> Bot : returns a list of actions
+        deactivate Brain
+        Bot -> TakeAction : do_action
+        activate TakeAction
+            TakeAction -> EntityClient : take_item(item_name)
+            activate EntityClient #DarkSalmon
+        
+            EntityClient -> Server : {"take","apple"}
+        deactivate EntityClient
+        deactivate TakeAction
+        Bot --> EntityClient : return
+    deactivate Bot
+    EntityClient --> Server : return
+deactivate EntityClient
+
+@enduml

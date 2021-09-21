@@ -1,0 +1,15 @@
+#
+# Dependencies if you are going to develop code locally on your laptop.
+#
+
+# Tool which sits waiting for files to change, then runs/re-runs tests.
+sniffer
+
+# Allows sniffer to notice when files change, saves it polling.
+MacFSEvents; sys_platform == 'darwin'
+pyinotify; sys_platform == 'linux'
+pywin32; sys_platform == 'win32'
+
+# Automated test framework
+nose
+

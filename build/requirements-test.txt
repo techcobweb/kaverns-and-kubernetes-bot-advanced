@@ -1,0 +1,33 @@
+#
+# Dependencies if you are going to run unit tests/code coverage against the code.
+# eg: developers and build system
+
+# Static code and style warning generator...
+pylint
+
+# Code coverate tools
+codecov
+coverage>=5.5
+
+# Fluent assertions library for unit tests
+assertpy
+
+# Unit test runner
+pytest
+
+# Plug-in to pytest to collect code coverage stats
+pytest-cov
+
+# Plug-in to pytest to process Gherkin BDD files
+pytest-bdd
+
+# Python mocking library
+mock
+
+# Documentation generator
+sphinx 
+sphinx-nested-apidoc
+myst-parser
+furo
+sphinxcontrib-napoleon
+sphinx-rtd-theme

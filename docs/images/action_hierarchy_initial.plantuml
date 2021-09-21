@@ -1,0 +1,38 @@
+
+
+@startuml
+
+enum ActionCode {
+    MOVE
+    EAT
+    TAKE
+    WEAR
+}
+
+abstract class Action {
+    action_code : ActionCode
+}
+
+class MoveAction {
+    direction : Direction
+}
+
+class EatAction {
+    item_name : str
+}
+
+class TakeAction {
+    item_name : str
+}
+
+class WearAction {
+    item_name : str
+}
+
+Action <|-- MoveAction
+Action <|-- TakeAction
+Action <|-- EatAction
+Action <|-- WearAction
+
+
+@enduml

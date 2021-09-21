@@ -1,0 +1,12 @@
+@startuml
+
+
+Server -> EntityClient : { "position" : { "id" : "xxxyyyzzz" , "pos":{"x":23,"y":12,"z":0}}}
+EntityClient -> State : update_position(id,point)
+State -> Entities : updatet_poisition(id,point)
+Entities -> Entities : get_by_id(id)
+Entities -> Entities : _remove_entity_from_position
+Entities -> Entity : position
+Entities -> Entities : _add_entity_to_position
+
+@enduml

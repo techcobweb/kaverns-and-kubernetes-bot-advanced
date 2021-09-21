@@ -1,0 +1,18 @@
+#Ignoring git and cache folders
+.git
+.cache
+.gitignore
+.pytest_cache
+**/__pycache__
+
+# Ignoring markdown
+*.md
+
+# Ignore tests
+tests/
+
+.travis.yml
+Dockerfile
+run-docker.sh
+run.sh
+setup.*

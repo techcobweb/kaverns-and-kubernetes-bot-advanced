@@ -1,0 +1,28 @@
+@startuml
+
+
+Server -> EntityClient : ping
+activate EntityClient
+
+    EntityClient -> Bot : tick
+    activate Bot
+
+        Bot -> Brain : decide_actions
+        activate Brain
+            Brain -> MoveAction : create
+            Brain --> Bot : returns a list of actions
+        deactivate Brain
+        Bot -> MoveAction : do_action
+        activate MoveAction
+            MoveAction -> EntityClient : move(direction)
+            activate EntityClient #DarkSalmon
+        
+            EntityClient -> Server : {"move","EAST"}
+        deactivate EntityClient
+        deactivate MoveAction
+        Bot --> EntityClient : return
+    deactivate Bot
+    EntityClient --> Server : return
+deactivate EntityClient
+
+@enduml

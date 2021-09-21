@@ -1,0 +1,36 @@
+#
+# Run-time requirements of the roguebot code.
+
+
+# Some of these may not be required or used. Needs investigating...
+aiohttp
+astroid
+async-timeout
+asyncio
+attrs
+bidict
+certifi
+chardet
+colorama
+httpserver
+idna
+iniconfig
+isort
+lazy-object-proxy
+mccabe
+multidict
+numpy
+packaging
+pluggy
+py
+pyparsing
+python-engineio
+python-socketio
+python-termstyle
+requests
+toml
+typing-extensions
+urllib3
+websockets
+wrapt
+yarl

@@ -1,0 +1,39 @@
+@startuml
+class Server
+class WebSocket
+class EntityClient
+class Bot
+class State
+interface IBrain
+class GoalDrivenBrain
+class HttpServer
+class DungeonMap
+class Items
+class Entities
+class Item
+class Entity
+class Cell
+class Goal
+
+Server <-- WebSocket
+WebSocket <-- Server
+EntityClient <-- WebSocket
+WebSocket <-- EntityClient
+IBrain <|.. GoalDrivenBrain
+
+EntityClient "1" *--> "1" State
+EntityClient "1" *--> "1" Bot 
+Bot "1" --> "1" IBrain
+Bot "1" --> "0..1" HttpServer
+Bot "1" --> "1" State
+GoalDrivenBrain "1" --> "0..*" Goal
+
+State "1" *--> "1" DungeonMap
+State "1" *--> "1" Entities
+State "1" *--> "1" Items
+DungeonMap "1" *--> "*" Cell
+Items "1" *--> "*" Item
+Entities "1" *--> "*" Entity
+Entity o--> "*" Item : inventory, current_armour
+
+@enduml
